@@ -26,36 +26,49 @@
         h1 {
             color: #003264;
         }
+        .copy-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #003264;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Prompt</h1>
-        <p>I'm planning to stay 3 days in Amsterdam in late June, with my partner, a 10-year-old and a 12-year-old. My budget is €1200, and I would like to visite places suitable for family with kids.</p>
+        <p id="content">I'm planning to stay 3 days in Amsterdam in late June, with my partner, a 10-year-old and a 12-year-old. My budget is €1200, and I would like to visit places suitable for family with kids.</p>
         <p>Based on this information, please suggest a detailed day-by-day itinerary.</p>
-        <button id="copyButton">Copy Passages</button>
+        <button class="copy-button" onclick="copyToClipboard()">Copy Content</button>
     </div>
-
     <script>
-        const copyButton = document.getElementById('copyButton');
-        const passages = document.querySelectorAll('.container > p');
-
-        copyButton.addEventListener('click', copyPassages);
-
-        function copyPassages() {
-            let passagesText = '';
-
-            passages.forEach(passage => {
-                passagesText += passage.textContent + '\n\n';
+        function copyToClipboard() {
+            // Create a temporary textarea element
+            var tempTextArea = document.createElement('textarea');
+            // Get the text content to copy
+            var content = document.querySelectorAll('.container p');
+            var textToCopy = "";
+            content.forEach(function(p) {
+                textToCopy += p.textContent + "\n";
             });
-
-            navigator.clipboard.writeText(passagesText)
-                .then(() => {
-                    console.log('Passages copied to clipboard');
-                })
-                .catch(err => {
-                    console.error('Failed to copy passages: ', err);
-                });
+            // Set the value of the textarea to the text to copy
+            tempTextArea.value = textToCopy;
+            // Add the textarea to the document
+            document.body.appendChild(tempTextArea);
+            // Select the text
+            tempTextArea.select();
+            // Copy the text
+            document.execCommand('copy');
+            // Remove the textarea from the document
+            document.body.removeChild(tempTextArea);
+            // Alert to show the content has been copied
+            alert('Content copied to clipboard');
         }
     </script>
 </body>
