@@ -31,10 +31,32 @@
 <body>
     <div class="container">
         <h1>Prompt</h1>
-        <p>I'm planning to stay 3 days in Amsterdam in late June, with my partner, a 10-year-old and a 12-year-old. My budget is €1200, and I would like to visite places suitable for family with kids.
-
-Based on this information, please suggest a detailed day-by-day itinerary.
-</p>
+        <p>I'm planning to stay 3 days in Amsterdam in late June, with my partner, a 10-year-old and a 12-year-old. My budget is €1200, and I would like to visite places suitable for family with kids.</p>
+        <p>Based on this information, please suggest a detailed day-by-day itinerary.</p>
+        <button id="copyButton">Copy Passages</button>
     </div>
+
+    <script>
+        const copyButton = document.getElementById('copyButton');
+        const passages = document.querySelectorAll('.container > p');
+
+        copyButton.addEventListener('click', copyPassages);
+
+        function copyPassages() {
+            let passagesText = '';
+
+            passages.forEach(passage => {
+                passagesText += passage.textContent + '\n\n';
+            });
+
+            navigator.clipboard.writeText(passagesText)
+                .then(() => {
+                    console.log('Passages copied to clipboard');
+                })
+                .catch(err => {
+                    console.error('Failed to copy passages: ', err);
+                });
+        }
+    </script>
 </body>
 </html>
